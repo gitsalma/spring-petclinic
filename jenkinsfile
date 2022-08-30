@@ -16,7 +16,7 @@ sh 'mvn -e clean install -Dcheckstyle.skip'
 stage('Docker Build') {
 agent any
 steps {
-sh 'docker build -t mehdidokker/spring-petclinic:latest .'
+sh 'docker build -t salmadokker/spring-petclinic:latest .'
 }
 }
 }
