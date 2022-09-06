@@ -2,9 +2,6 @@
 
 pipeline {
 agent none
-  environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-darinpop')
-  }
 stages {
 stage('Maven Install') {
 agent {
@@ -22,20 +19,5 @@ steps {
 sh 'docker build -t salmadokker/spring-petclinic:latest .'
 }
 }
-  stage('login') {
-    steps {
-      sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-  }
-  }
-  stage('push') {
-    steps {
-      sh 'docker push salmanahhass1/dp-alpine:latest'
-    }
-  }
 }
-  post {
-    always {
-      sh 'docker logout'
-}
-  }
 }
