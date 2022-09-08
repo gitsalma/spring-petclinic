@@ -1,5 +1,8 @@
 pipeline {
 agent none
+        environment {
+		DOCKERHUB_CREDENTIALS=credentials('docker-darinpop')
+	}
 stages {
 stage('Maven Install') {
 agent {
@@ -14,8 +17,24 @@ sh 'mvn -e clean install -Dcheckstyle.skip'
 stage('Docker Build') {
 agent any
 steps {
-sh 'docker build -t salmadokker/spring-petclinic:latest .'
+sh 'docker build -t salmadokker&/spring-petclinic:latest .'
 }
 }
+   stage('Docker Push') {
+        agent any
+        steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh 'docker push salmadokker1/spring-petclinic:latest'
+        }
+        }
+
+   stage('Deploy App') {
+      agent any
+      steps {
+        script {
+         kubernetesDeploy(configs: "spring-petclinic.yml", kubeconfigId: "KubeConfig")
+        }
+      }
+    }
 }
 }
