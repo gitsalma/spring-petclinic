@@ -13,7 +13,7 @@ pipeline {
       stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("salmadokker99/spring-petclinic:${env.BUILD_ID}")
+                    myapp = docker.build("salmadokker/spring-petclinic:${env.BUILD_ID}")
                 }
             }
         }
