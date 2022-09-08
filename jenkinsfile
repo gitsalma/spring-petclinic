@@ -1,43 +1,24 @@
+
+#!groovy
+
 pipeline {
-
-  agent any
-
-  stages {
-
-    stage('Checkout Source') {
-      steps {
-        git url:'https://github.com/gitsalma/spring-petclinic.git', branch:'master'
-      }
-    }
-    
-      stage("Build image") {
-            steps {
-                script {
-                    myapp = docker.build("salmadokker/spring-petclinic:${env.BUILD_ID}")
-                }
-            }
-        }
-    
-      stage("Push image") {
-            steps {
-                script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-darinpop') {
-                            myapp.push("latest")
-                            myapp.push("${env.BUILD_ID}")
-                    }
-                }
-            }
-        }
-
-    
-    stage('Deploy App') {
-      steps {
-        script {
-         kubernetesDeploy(configs: "spring-petclinic.yml", kubeconfigId: "KubeConfig")
-        }
-      }
-    }
-
-  }
-
+agent none
+stages {
+stage('Maven Install') {
+agent {
+docker {
+image 'maven:3.8.6'
+}
+}
+steps {
+sh 'mvn -e clean install -Dcheckstyle.skip'
+}
+}
+stage('Docker Build') {
+agent any
+steps {
+sh 'docker build -t salmadokker/spring-petclinic:latest .'
+}
+}
+}
 }
