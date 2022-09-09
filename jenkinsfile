@@ -23,7 +23,6 @@ sh 'docker build -t salmadokker1/spring-petclinic:latest .'
    stage('Docker Push') {
         agent any
         steps {
-		sh 'echo tag 
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push salmanahhass1/salmadokker1/spring-petclinic:latest'
         }
