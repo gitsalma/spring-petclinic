@@ -1,7 +1,7 @@
 pipeline {
 agent none
         environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+		DOCKERHUB_CREDENTIALS=credentials('jenkins-docker')
 	}
 stages {
 stage('Maven Install') {
