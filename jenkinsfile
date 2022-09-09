@@ -24,7 +24,7 @@ sh 'docker build -t salmadokker1/spring-petclinic:latest .'
         agent any
         steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push salmanahhass1/spring22:latest'
+                sh 'docker push salmadokker1/spring-petclinic:latest'
         }
         }
 
